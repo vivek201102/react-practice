@@ -1,10 +1,13 @@
 import React from 'react';
+import Head from './header.js';
+
 class Car extends React.Component {
 
   //contructor
   constructor(props) {
     super();
     this.state = {
+      show: true,
       color: "Red",
       brand: "KIA",
       model: "Seltos"
@@ -21,7 +24,9 @@ class Car extends React.Component {
   }
   */
 
-
+  componentDidUpdate() {
+    // document.getElementById("msg").innerHTML += "color updated";
+  }
 
 
   change = () => {
@@ -30,15 +35,41 @@ class Car extends React.Component {
     );
   }
 
+  delHeader = () => {
+    this.setState(
+      { show: false }
+    );
+  }
+
   //render
   render() {
-    return (
-      <>
-        <h2>{this.state.brand} {this.state.model}</h2>
-        <h4>Color: {this.state.color}</h4>
-        <button onClick={this.change}>Click Me</button>
-      </>
-    );
+    if (this.state.show) {
+      return (
+        <>
+          <Head head="Car" />
+          <h2>{this.state.brand} {this.state.model}</h2>
+          <h4>Color: {this.state.color}</h4>
+          <button onClick={this.change}>Click Me</button>
+          <div id="msg"></div>
+          <button onClick={this.delHeader}>Delete</button>
+
+        </>
+      );
+    }
+
+    else {
+      return (
+        <>
+
+          <h2>{this.state.brand} {this.state.model}</h2>
+          <h4>Color: {this.state.color}</h4>
+          <button onClick={this.change}>Click Me</button>
+          <div id="msg"></div>
+          <button onClick={this.delHeader}>Delete</button>
+        </>
+      );
+    }
+
   }
 
   //Component did mount
@@ -46,10 +77,21 @@ class Car extends React.Component {
     this.setState({ color: "Yellow" })
   }
 
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    // document.getElementById("msg").innerHTML += "Privious color: " + prevState.color;
+    return this.state;
+  }
+  /*
   shouldComponentUpdate() {
 
-    return false;
+    return true;
   }
+  */
+
+  componentWillUnmount() {
+
+  }
+
 }
 
 export default Car;
